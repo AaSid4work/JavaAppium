@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fbf39b1e-b0f8-452b-baa1-3de046e6277c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Java_Appium/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/CoreTestCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/Platform.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/tests/ArticleTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/tests/ChangeAppConditionsTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/tests/GetStartedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/tests/MyListsTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/tests/SearchTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/Android/AndroidArticlePageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/Android/AndroidMyListsPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/Android/AndroidNavigationUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/Android/AndroidSearchPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/ArticlePageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/IOS/iOSArticlePageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/IOS/iOSMyListsPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/IOS/iOSNavigationUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/IOS/iOSSearchPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/IOS/iOSWelcomePageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/MainPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/MyListsPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/NavigationUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/SearchPageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/WelcomePageObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/factories/ArticlePageObjectFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/factories/MyListPageObjectFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/factories/NavigationUIFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/lib/ui/factories/SearchPageObjectFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/suites/TestSuite.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2RO4FEQMjmPznDJJ7NfP2Ys1Khq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/anna.sidorova/JavaAppium",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fbf39b1e-b0f8-452b-baa1-3de046e6277c" name="Changes" comment="" />
+      <created>1687107688380</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1687107688380</updated>
+    </task>
+    <servers />
+  </component>
+</project>
