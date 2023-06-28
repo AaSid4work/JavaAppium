@@ -1,176 +1,233 @@
-package lib.ui;
+package lib.UI;
 
-import io.appium.java_client.AppiumDriver;
-import lib.Platform;
-import org.junit.Assert;
-import org.openqa.selenium.WebElement;
+import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class ArticlePageObject extends MainPageObject {
-    public ArticlePageObject(AppiumDriver driver) {
+public class ArticlePageObject extends MainPageObject {
+    public static String
+            SAVE_BUTTON,
+            ADD_TO_LIST_BUTTON,
+            ADD_TO_LIST_BUTTON_IS_PRESSED,
+            ADD_TO_LIST_INPUT_FIELD,
+            LIST_TITLE,
+            SNACKBAR_AFTER_SAVE,
+            ARTICLE_TITLE,
+            CREATE_LIST_BUTTON,
+            CREATE_NEW_LIST_BUTTON,
+            ADD_TO_LIST_BUTTON_FROM_SNACKBAR,
+            TABLE_OF_CONTENTS_BUTTON,
+            ARTICLE_TITLE_IN_CONTENTS,
+            LOG_IN_BUTTON,
+            CLOSE_POP_UP_MW,
+            ADD_TO_LIST_OK_BUTTON;
+
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
-    protected static String
-
-            TITLE,
-            ARTICLE_TITLE,
-            OPTION_BUTTON,
-            ADD_TO_MY_LIST_BUTTON,
-            ADD_TO_MY_LIST_OVERLAY,
-            MY_LIST_MAME_INPUT,
-            MY_LIST_OK_BUTTON,
-            MY_SAVED_FOLDER_NAME,
-            CLOSE_ARTICLE_BUTTON,
-            ELEMENT_TO_FIND_AFTER_SWIPE_TPL,
-            FOOTER_ELEMENT,
-            OPTION_ADD_TO_MY_LIST_BUTTON,
-            MY_CREATE_LIST;
-
-
-    private static String GetSearchElementByxPath (String search_element)
-{
-    return ELEMENT_TO_FIND_AFTER_SWIPE_TPL.replace("{NAME_OF_ELEMENT}",search_element);
-}
-    private static String GetNameOfSavedFolder (String name_of_saved_folder)
-    {
-        return MY_SAVED_FOLDER_NAME.replace("{SAVED_FOLDER_NAME}",name_of_saved_folder);
-    }
-
-    public WebElement waitForTitleElement() {
-        return this.waitForElementPresent(
-                TITLE,
-                "Cannot find article title on page",
-                15);
-    }
-    public void ClickInSavedFolder (String name_of_saved_folder)
-    {
-        String SavedFolderNameXpath = GetNameOfSavedFolder(name_of_saved_folder);
-                this.waitForElementAndClick(
-                        SavedFolderNameXpath,
-                        "Cannot find saved folder with name "+name_of_saved_folder,
-                        5
-                );
-    }
-
-    public String getArticleTitle() {
-        WebElement title_element = waitForTitleElement();
-        if (Platform.getInstance().isAndroid()){
-            return title_element.getAttribute("text");
-        } else{
-            return title_element.getAttribute("name");
-        }
-    }
-
-    public WebElement waitForTitleElementMy() {
-        return this.waitForElementPresent (
-                TITLE,
-                "Cannot find article title on page",
-                15);
-    }
-
-
-
-    public void AddArticleToMyList (String name_of_folder)
-    {
-        this.waitForElementAndClick(
-                OPTION_BUTTON,
-                "cannot find button 'more options'",
-                5
-        );
-
-        this.waitForElementAndClick(
-                 ADD_TO_MY_LIST_BUTTON,
-                "cannot find option to add article to reading list'",
-                5
-        );
-        this.waitForElementAndClick(
-               ADD_TO_MY_LIST_OVERLAY,
-                "cannot find GOT IT tip overlay",
-                5
-        );
-        this.waitForElementAndClear(
-                MY_LIST_MAME_INPUT,
-                "Cannot find input to set name of article folder ",
-                5
-        );
-        this.waitForElementAndSendKeys(
-               MY_LIST_MAME_INPUT,
-                "Learning Programming",
-                "Cannot put text into article folder input",
-                5
-        );
-        this.waitForElementAndClick(
-               MY_LIST_OK_BUTTON,
-                "cannot press OK button",
-                5
-        );
-
-    }
-    public void CloseArticle ()
-    {
+    @Step("Saving first article to list")
+    public void firstSaveArticleToList(String list_name) {
         waitForElementAndClick(
-            CLOSE_ARTICLE_BUTTON,
-                "cannot close article, cannot find x button",
+                SAVE_BUTTON,
+                "Not find Save Button",
                 5
         );
-    }
-    public void AddArticleToFolderInMyList (String name_of_saved_folder)
-    {
-        this.waitForElementAndClick(
-                OPTION_BUTTON,
-                "cannot find button 'more options'",
+        takeScreenshot("state_after_clicking_save");
+        waitForElementAndClick(
+                ADD_TO_LIST_BUTTON,
+                "Not find Add to List Button",
                 5
         );
-        this.waitForElementAndClick(
-               ADD_TO_MY_LIST_BUTTON,
-                "cannot find option to add article to reading list'",
+        takeScreenshot("state_after_clicking_add_to_list");
+        waitForElementAndSendKeys(
+                ADD_TO_LIST_INPUT_FIELD,
+                "Not find text field",
+                list_name,
                 5
         );
+        takeScreenshot("list_input");
+        waitForElementAndClick(
+                ADD_TO_LIST_OK_BUTTON,
+                "Not find OK Button",
+                15
+        );
+        takeScreenshot("state_after_adding_article");
 
-        ClickInSavedFolder(name_of_saved_folder);
 
-        this.waitForElementAndClick(
-              MY_LIST_OK_BUTTON,
-                "cannot press OK button",
-                5
-        );
-    }
-    public void addArticlesToMySaved(){
-        this.waitForElementAndClick(OPTION_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list",5);
     }
 
-    public void checkArticleWithoutWait(){
-        this.assertElementPresent(
-                TITLE,
-                "Cannot find Article"
+    @Step("Saving first article to list")
+    public void saveFirstArticleToListIOS(String list_name, String article_title) {
+        waitForElementAndClick(
+                SAVE_BUTTON,
+                "Not find Save Button",
+                5
         );
+        takeScreenshot("state_after_clicking_save");
+        waitForElementAndClick(
+                getAddToListXpath(article_title),
+                "Not find Add to List Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_add_to_list");
+        waitForElementAndClick(
+                CREATE_NEW_LIST_BUTTON,
+                "Not find Create a new list Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_crate_new_list");
+        waitForElementAndSendKeys(
+                ADD_TO_LIST_INPUT_FIELD,
+                "Not find Input field",
+                list_name,
+                5);
+        takeScreenshot("list_input");
+        waitForElementAndClick(
+                CREATE_LIST_BUTTON,
+                "Not find Create Button",
+                5);
+        takeScreenshot("state_after_adding_article");
     }
+
+    @Step("Saving article to List")
+    public void saveArticleToListIOS(String list_name, String article_title) {
+        waitForElementAndClick(
+                SAVE_BUTTON,
+                "Not find Save Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_save");
+        waitForElementAndClick(
+                getAddToListXpath(article_title),
+                "Not find Add to List Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_add_to_list");
+        waitForElementAndClick(
+                getListID(list_name),
+                "Not find list title " + list_name,
+                5
+        );
+        takeScreenshot("state_after_choosing_list");
+        waitForElementsPresent(
+                SNACKBAR_AFTER_SAVE,
+                "Snackbar not presented after article save",
+                5
+        );
+        takeScreenshot("state_after_adding_article");
+
+    }
+
+
+    @Step("Saving article to List")
+    public void saveArticleToList(String list_name) {
+        waitForElementAndClick(
+                SAVE_BUTTON,
+                "Not find Save Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_save");
+        waitForElementAndClick(
+                ADD_TO_LIST_BUTTON,
+                "Not find Add to List Button",
+                5
+        );
+        takeScreenshot("state_after_clicking_add_to_list");
+        waitForElementAndClick(
+                getListTitleXpath(list_name),
+                "Not find " + list_name + " list",
+                5
+        );
+        takeScreenshot("state_after_choosing_list");
+        waitForElementsPresent(
+                SNACKBAR_AFTER_SAVE,
+                "Snackbar not presented after article save",
+                5
+        );
+        takeScreenshot("state_after_adding_article");
+
+    }
+
+    private static String getListTitleXpath(String substring) {
+        return LIST_TITLE.replace("{SUBSTRING}", substring);
+
+    }
+
+    private static String getAddToListXpath(String substring) {
+        return ADD_TO_LIST_BUTTON_FROM_SNACKBAR.replace("{SUBSTRING}", substring);
+
+    }
+
+    private static String getArticleTitleID(String title) {
+        return ARTICLE_TITLE.replace("{TITLE}", title);
+    }
+
+
+    @Step("Assert that title of article is correct")
     public void assertArticleHasTitle(String article_title) {
         String article_title_actual = waitForElementPresent(
                 ARTICLE_TITLE,
                 "Not find title of article",
                 5
         ).getText();
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 article_title,
                 article_title_actual,
                 "Wrong article title"
         );
+        takeScreenshot("state_of_article");
     }
-    public void swipeToFooter(){
 
-        if (Platform.getInstance().isAndroid()) {
-            this.swipeUpToFindElement(
-                    FOOTER_ELEMENT,
-                    "Cannot find the end of the article",
-                    80
-            );
+    @Step("Assert that article title is correct in Table of contents")
+    public void assertArticleTitleInTableOfContents(String article_title) {
+        waitForElementAndClick(TABLE_OF_CONTENTS_BUTTON, "Not find Table of contents button", 5);
+        String article_title_actual = waitForElementPresent(ARTICLE_TITLE_IN_CONTENTS, "some error", 5).getText();
+        Assertions.assertEquals(
+                article_title,
+                article_title_actual,
+                "Wrong article title"
+        );
+        takeScreenshot("state_of_article_toc");
+
+    }
+
+    public static String getListID(String list_name) {
+        return "id:" + list_name;
+    }
+
+    @Step("Saving article to Watchlist without login")
+    public void firstSaveArticleMW() {
+        if (isElementPresented(CLOSE_POP_UP_MW, 2)) {
+            waitForElementAndClick(CLOSE_POP_UP_MW, "Cannot close pop-up", 5);
+        }
+        waitForElementAndClick(SAVE_BUTTON, "Cannot click Save btn", 5);
+        takeScreenshot("state_after_click_save");
+        waitForElementAndClick(LOG_IN_BUTTON, "Cannot click Login btn", 5);
+        takeScreenshot("state_after_click_login");
+    }
+
+    @Step("Saving article to Watchlist")
+    public void saveArticleMW(String article_title) {
+        if (isElementPresented(ADD_TO_LIST_BUTTON_IS_PRESSED, 2)) {
+            assertArticleHasTitle(article_title);
+            System.out.println("Article already added to watchlist");
+            takeScreenshot("state_of_article_with_added_wathclist");
         } else {
-            this.swipeUpTitleElementAppear(
-                    FOOTER_ELEMENT,
-                    "Cannot find the end of the article",
-                    80 );
+            if (isElementPresented(CLOSE_POP_UP_MW, 2)) {
+                waitForElementAndClick(CLOSE_POP_UP_MW, "Cannot close pop-up", 5);
+            }
+            assertArticleHasTitle(article_title);
+            waitForElementAndClick(SAVE_BUTTON, "Cannot click Save btn", 5);
+            assertArticleHasAddedToWatchList();
+            takeScreenshot("state_of_article_with_added_wathclist");
         }
     }
 
+
+    @Step("Assert that articles is added to watchlist")
+    public void assertArticleHasAddedToWatchList() {
+        waitForElementPresent(ADD_TO_LIST_BUTTON_IS_PRESSED, "Article not added to list", 5);
+        takeScreenshot("state_of_article_page");
+    }
 }

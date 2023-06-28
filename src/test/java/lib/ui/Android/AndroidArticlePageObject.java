@@ -1,26 +1,20 @@
-package lib.ui.Android;
+package lib.UI.Android;
 
-import io.appium.java_client.AppiumDriver;
-import lib.ui.ArticlePageObject;
-
-
+import lib.UI.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
-
-        static {
-            TITLE = "org.wikipedia:id/view_page_title_text";
-            FOOTER_ELEMENT = "xpath://android.view.View/android.view.View[1]/android.view.View[1]";
-            OPTION_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']";
-                    ADD_TO_MY_LIST_BUTTON = "//*[@text = 'Add to reading list']";
-                    ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button";
-                    MY_LIST_MAME_INPUT = "org.wikipedia:id/text_input";
-                    MY_LIST_OK_BUTTON = "//*[@text = 'OK']";
-                    MY_SAVED_FOLDER_NAME = "//*[@text = '{SAVED_FOLDER_NAME}']";
-                    CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton [@content-desc = 'Navigate up']";
-                    ELEMENT_TO_FIND_AFTER_SWIPE_TPL = "//*[contains(@text,'{NAME_OF_ELEMENT}')]";
-        }
-        public AndroidArticlePageObject(AppiumDriver driver)
-        {
-            super(driver);
-        }
+    public AndroidArticlePageObject(RemoteWebDriver driver) {
+        super(driver);
     }
+
+    static {
+        SAVE_BUTTON = "id:org.wikipedia:id/page_save";
+        ADD_TO_LIST_BUTTON = "id:org.wikipedia:id/snackbar_action";
+        ADD_TO_LIST_INPUT_FIELD = "id:org.wikipedia:id/text_input";
+        LIST_TITLE = "xpath://*[@resource-id='org.wikipedia:id/item_title'][@text='{SUBSTRING}']";
+        SNACKBAR_AFTER_SAVE = "id:org.wikipedia:id/fragment_page_coordinator";
+        ARTICLE_TITLE = "xpath://android.view.View/android.view.View[1]/android.view.View[1]";
+        ADD_TO_LIST_OK_BUTTON = "xpath://*[@resource-id='android:id/button1'][@text='OK']";
+    }
+}

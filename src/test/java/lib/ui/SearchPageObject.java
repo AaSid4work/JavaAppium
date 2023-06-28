@@ -1,121 +1,153 @@
-package lib.ui;
+package lib.UI;
 
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
+import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.List;
 
 abstract public class SearchPageObject extends MainPageObject {
 
-
-    public SearchPageObject(AppiumDriver driver)
-    {
+    public SearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
+    public static String
+            SEARCH_CONTAINER,
+            SEARCH_INPUT_FIELD,
+            CLEAR_SEARCH_BUTTON,
+            CLOSE_SEARCH_BUTTON,
+            SEARCH_EMPTY_CONTAINER,
+            PAGE_LIST,
+            ARTICLE_TITLE_AND_DESCRIPTION,
+            ARTICLE_TITLE_TPL;
 
-   protected  static  String
-            SEARCH_INIT_ELEMENT ,
-            SEARCH_INPUT ,
-            SEARCH_RESULT_BY_SUBSTRING_TPL ,
-            SEARCH_RESULT_ELEMENT ,
-            SEARCH_RESULT_LIST,
-            SEARCH_CANCEL_BUTTON ,
-            SEARCH_EMPTY_RESULT_ELEMENT,
-           CLEAR_SEARCH_LINE,
-            SEARCH_RESULT_BY_STRING_ON_PAGE_TPL ,
-            ARTICLE_TITLE_AND_DESCRIPTION ;
+    @Step("Searching '{value}' string")
+    public void searchText(String value) {
+        waitForElementAndClick(
+                SEARCH_CONTAINER,
+                "Not find search container on the page",
+                5
+        );
+        waitForElementAndSendKeys(
+                SEARCH_INPUT_FIELD,
+                "Not find input field",
+                value,
+                5
+        );
+        takeScreenshot("search_input");
 
-
-
-    /*TEMPLATES METHODS */
-    private static String GetResultSearchElement(String substring) {
-        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
-    /*TEMPLATES METHODS */
-    public void initSearchInput()
-    {
-        this.waitForElementAndClick(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find and click search init element",
-                15);
+    @Step("Assert that search result exist")
+    public void searchResultsExist() {
+        for (WebElement searchResult : getSearchResultsList()) {
+            Assertions.assertTrue(searchResult.isDisplayed(), "Titles not displayed");
+        }
 
-        this.waitForElementPresent(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find search input after clicking init element",
-                15);
     }
 
-    public void waitForCancelButtonToAppear()
-    {
-        this.waitForElementPresent(
-                SEARCH_CANCEL_BUTTON,
-                "Cannot find X to cancel search",
-                10);
-    }
-    public void waitForCancelButtonToDissAppear()
-    {
-        this.waitForElementNotPresent(
-                SEARCH_CANCEL_BUTTON
-                ,"Search Cancel button is steel present",
-                10);
-    }
-    public void ClickCancelSearch ()
-    {
-        this.waitForElementAndClick(
-                SEARCH_CANCEL_BUTTON
-                ,"Cannot find X to click cancel search",
-                10);
-    }
-    public void typeSearchLine(String search_line){
-        this.waitForElementAndSendKeys(SEARCH_INPUT, search_line, "Cannot find and type into search input", 5);
+    @Step("Clearing search field")
+    public void clearSearch() {
+        waitForElementAndClick(
+                CLEAR_SEARCH_BUTTON,
+                "Not find Close button",
+                5
+        );
+        takeScreenshot("state_after_clear");
+
     }
 
-    public static String getSearchResultXpathByTitleAndDescription(String title, String description) {
+    @Step("Assert that search result is empty")
+    public void searchResultsIsEmpty() {
+        waitForElementPresent(
+                SEARCH_EMPTY_CONTAINER,
+                "Search is not empty",
+                5
+        );
+    }
+
+    public List<WebElement> getSearchResultsList() {
+        return waitForElementsPresent(
+                PAGE_LIST,
+                "Not find any articles",
+                5);
+    }
+
+    @Step("Assert that search results have '{search_word}' in title")
+    public void assertArticleTitles(String search_word) {
+        for (WebElement articles_element : getSearchResultsList()) {
+            String article_title = articles_element.getText();
+            Assertions.assertTrue(article_title.contains(search_word), "Not all articles contains search-word " + search_word + " in title");
+        }
+    }
+
+
+    private static String getSearchResultXpath(String substring) {
+        return ARTICLE_TITLE_TPL.replace("{SUBSTRING}", substring);
+
+    }
+
+    private static String getSearchResultXpathByTitleAndDescription(String title, String description) {
         return ARTICLE_TITLE_AND_DESCRIPTION
                 .replace("{TITLE}", title)
                 .replace("{DESCRIPTION}", description);
 
     }
 
-    public  void waitForSearchResult(String substring)
-    {
-        String SearchResultXpath = GetResultSearchElement (substring);
-        this.waitForElementPresent(
-                SearchResultXpath
-                ,"Cannot find search result with substring"+ substring,
-                10);
-    }
-    public void waitForEmptyResultLabel(){
-        this.waitForElementPresent(SEARCH_EMPTY_RESULT_ELEMENT, "Cannot find empty result element", 15);
-    }
-
-    public  void waitForSearchResultOnPage()
-    {
-        this.waitForElementPresent(
-                SEARCH_RESULT_BY_STRING_ON_PAGE_TPL
-                ,"Cannot find search result with substring",
-                10);
-    }
-    public void assertThereIsNoResultOfSearch(){
-        this.assertElementNotPresent(SEARCH_RESULT_ELEMENT, "We supposed not to find any results");
-    }
-    public  void clickByArticleWithSubstring (String substring)
-    {
-        String SearchResultXpath = GetResultSearchElement (substring);
-        this.waitForElementAndClick(
-                SearchResultXpath,
-                "Cannot find and click search result with substring"+ substring,
-                10);
-    }
-    public int getAmountOfFoundArticles(){
-        this.waitForElementPresent(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find anything by the result",
-                15
+    @Step("Open article from search")
+    public void openArticle(String article_title) {
+        waitForElementAndClick(
+                getSearchResultXpath(article_title),
+                "Not find " + article_title + " article",
+                5
         );
-        return this.getAmountOfElements(SEARCH_RESULT_ELEMENT);
+        takeScreenshot("article_page");
     }
 
+    public void openArticleWithDesc(String article_title, String article_desc) {
+        waitForElementAndClick(
+                getSearchResultXpathByTitleAndDescription(article_title, article_desc),
+                "Not find " + article_title + " article",
+                5
+        );
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description) {
+        ;
+        waitForElementPresent(
+                getSearchResultXpathByTitleAndDescription(title, description),
+                "Title '" + title + "' or description '" + description + "' doesn't match",
+                5
+        );
+
+
+    }
+
+    @Step("Assert that needed titles exist in search results")
+    public void assertTitlesAndDescriptionsInSearchResult(List<String> titles, List<String> descriptions) {
+        for (int i = 0; i < titles.size(); i++) {
+            waitForElementByTitleAndDescription(titles.get(i), descriptions.get(i));
+        }
+
+    }
+
+    @Step("Assert that search field exist")
+    public void assertSearchContainerIsPresented() {
+        waitForElementPresent(SEARCH_CONTAINER, "Not find Search Field on Main Page", 15);
+        takeScreenshot("main_page_with_search");
+    }
+
+    @Step("Closing search")
+    public void closeSearch() {
+        waitForElementAndClick(CLOSE_SEARCH_BUTTON, "Not Find Close Button", 5);
+        takeScreenshot("state_after_closing_search");
+    }
+
+    public void openSearch() {
+        waitForElementAndClick(SEARCH_CONTAINER, "Not find Search btn", 5);
+    }
 
 
 }

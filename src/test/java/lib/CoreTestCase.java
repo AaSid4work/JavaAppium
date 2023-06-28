@@ -1,59 +1,50 @@
 package lib;
 
-import io.appium.java_client.AppiumDriver;
-import junit.framework.TestCase;
-import lib.ui.WelcomePageObject;
-import org.junit.After;
-import org.openqa.selenium.ScreenOrientation;
+import io.qameta.allure.Step;
+import lib.UI.MainPageObject;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.time.Duration;
+import java.io.FileOutputStream;
+import java.util.Properties;
 
-public class CoreTestCase extends TestCase {
-    protected AppiumDriver driver;
+public class CoreTestCase {
+    protected RemoteWebDriver driver;
+    protected MainPageObject MainPageObject;
 
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    @Step("Run driver and session")
+    public void setUp() throws Exception {
         driver = Platform.getInstance().getDriver();
-        this.rotateScreenPortrait();
-        this.skipWelcomePageForIOSApp();
+        openWikiPageForMobileWeb();
+        createAllurePropertyFile();
     }
 
-    @Override
+    @AfterEach
     public void tearDown() {
-       driver.quit();
-
-   }
-    protected void rotateScreenPortrait()
-    {
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        driver.quit();
     }
 
-    protected void rotateScreenLandscape()
-    {
-        driver.rotate(ScreenOrientation.LANDSCAPE);
-    }
-
-    protected void backgroundApp(int second)
-    {
-        driver.runAppInBackground(Duration.ofSeconds(second));
-    }
-    private void skipWelcomePageForIOSApp()
-    {
-        if(Platform.getInstance().isIOS()) {
-            WelcomePageObject WelcomePageObject = new WelcomePageObject(driver);
-            WelcomePageObject.clickskip();
-
-        }
+    protected void openWikiPageForMobileWeb() {
+        if (Platform.getInstance().isMW()) {
+            driver.get("https://en.m.wikipedia.org/");
+        } else {
+            System.out.println("Method openWikiPageForMobileWeb do nothing for platform " + Platform.getInstance().getPlatformEnv());
         }
     }
 
-
-
-
-
-
-
-
-
+    private void createAllurePropertyFile() {
+        String path = System.getProperty("allure.results.directory");
+        try {
+            Properties props = new Properties();
+            FileOutputStream fos = new FileOutputStream(path + "/environment.properties");
+            props.setProperty("Environment", Platform.getInstance().getPlatformEnv());
+            props.store(fos, "See https://docs.qameta.io/allure/#_environment");
+            fos.close();
+        } catch (Exception e) {
+            System.err.println("IO problem when writing allure properties file");
+            e.printStackTrace();
+        }
+    }
+}

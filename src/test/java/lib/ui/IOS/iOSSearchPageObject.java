@@ -1,23 +1,20 @@
-package lib.ui.IOS;
+package lib.UI.IOS;
 
-import io.appium.java_client.AppiumDriver;
-import lib.ui.SearchPageObject;
+import lib.UI.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-
-public class iOSSearchPageObject extends SearchPageObject {
-
-    static {
-        SEARCH_INIT_ELEMENT = "id:Поиск по Википедии";
-        SEARCH_INPUT = "id:Поиск по Википедии";
-        SEARCH_CANCEL_BUTTON = "xpath://XCUIElementTypeStaticText[@name=\"Отменить\"]";
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "(xpath://XCUIElementTypeStaticText[@name='{SUBSTRING}'])[1]";
-        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText";
-        SEARCH_RESULT_LIST = "xpath://XCUIElemen tTypeCell";
-        SEARCH_EMPTY_RESULT_ELEMENT = "id:Ничего не найдено";
-        CLEAR_SEARCH_LINE = "id:Очистить текст";
-    }
-    public iOSSearchPageObject(AppiumDriver driver)
-    {
+public class IOSSearchPageObject extends SearchPageObject {
+    public IOSSearchPageObject(RemoteWebDriver driver) {
         super(driver);
+    }
+    static {
+        SEARCH_CONTAINER = "id:Search Wikipedia";
+        SEARCH_INPUT_FIELD = "id:Search Wikipedia";
+        CLEAR_SEARCH_BUTTON = "id:Clear text";
+        CLOSE_SEARCH_BUTTON = "xpath://XCUIElementTypeStaticText[@name='Cancel']";
+        SEARCH_EMPTY_CONTAINER = "id:No recent searches yet";
+        PAGE_LIST = "xpath://XCUIElementTypeOther[2]/XCUIElementTypeCollectionView";
+        ARTICLE_TITLE_AND_DESCRIPTION = "xpath://XCUIElementTypeStaticText[@name='{TITLE}']/../XCUIElementTypeStaticText[@name='{DESCRIPTION}']/..";
+        ARTICLE_TITLE_TPL = "xpath://XCUIElementTypeStaticText[@name='{SUBSTRING}']";
     }
 }
